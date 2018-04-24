@@ -2,6 +2,8 @@
 # Automatically-generated file. Do not edit or delete the file
 ################################################################################
 
+src\arm_task.c
+
 src\ASF\common\utils\stdio\read.c
 
 src\ASF\sam\drivers\tc\tc.c
@@ -19,6 +21,12 @@ src\ASF\thirdparty\freertos\freertos-7.3.0\source\queue.c
 src\ASF\thirdparty\freertos\freertos-7.3.0\source\tasks.c
 
 src\ASF\thirdparty\freertos\freertos-7.3.0\source\timers.c
+
+src\drivers\encoder.c
+
+src\motor_task.c
+
+src\nav_task.c
 
 src\pin_mapper.c
 
