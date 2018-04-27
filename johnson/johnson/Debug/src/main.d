@@ -158,7 +158,7 @@ src/main.d src/main.o: ../src/main.c ../src/asf.h \
  ../src/ASF/sam/drivers/uart/uart.h ../src/ASF/sam/drivers/usart/usart.h \
  ../src/config/conf_uart_serial.h ../src/ASF/sam/drivers/tc/tc.h \
  ../src/ASF/sam/drivers/pio/pio_handler.h ../src/motor_task.h \
- ../src/nav_task.h ../src/arm_task.h ../src/drivers/console_driver.h \
+ ../src/main_task.h ../src/drivers/console_driver.h \
  ../src/drivers/delay.h ../src/drivers/encoder.h ../src/pin_mapper.h
 
 ../src/asf.h:
@@ -493,9 +493,7 @@ c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\arm\arm-gnu-toolchain\arm-no
 
 ../src/motor_task.h:
 
-../src/nav_task.h:
-
-../src/arm_task.h:
+../src/main_task.h:
 
 ../src/drivers/console_driver.h:
 

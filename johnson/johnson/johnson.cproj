@@ -578,12 +578,6 @@
     <Folder Include="src\drivers" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="src\arm_task.c">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="src\arm_task.h">
-      <SubType>compile</SubType>
-    </Compile>
     <Compile Include="src\ASF\common\utils\stdio\read.c">
       <SubType>compile</SubType>
     </Compile>
@@ -659,16 +653,22 @@
     <Compile Include="src\drivers\encoder.h">
       <SubType>compile</SubType>
     </Compile>
+    <Compile Include="src\math_functions.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src\math_functions.h">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="src\motor_task.c">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="src\motor_task.h">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="src\nav_task.c">
+    <Compile Include="src\main_task.c">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="src\nav_task.h">
+    <Compile Include="src\main_task.h">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="src\pin_mapper.c">

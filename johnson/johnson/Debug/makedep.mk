@@ -2,8 +2,6 @@
 # Automatically-generated file. Do not edit or delete the file
 ################################################################################
 
-src\arm_task.c
-
 src\ASF\common\utils\stdio\read.c
 
 src\ASF\sam\drivers\tc\tc.c
@@ -26,7 +24,7 @@ src\drivers\encoder.c
 
 src\motor_task.c
 
-src\nav_task.c
+src\main_task.c
 
 src\pin_mapper.c
 
