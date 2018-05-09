@@ -14,6 +14,7 @@
 #include "drivers/delay.h"
 #include "drivers/encoder.h"
 #include "pin_mapper.h"
+#include "getters.h"
 
 int main (void)
 {
@@ -24,7 +25,7 @@ int main (void)
 	ioport_init();
 	console_init();
 	encoder_init_pin_interrupt();
-	
+
 	ioport_enable_pin(pin_mapper(TASK_DEBUG_MOTOR_PIN));
 	ioport_enable_pin(pin_mapper(TASK_DEBUG_MAIN_PIN));
 	ioport_set_pin_dir(pin_mapper(TASK_DEBUG_MOTOR_PIN), IOPORT_DIR_OUTPUT);
