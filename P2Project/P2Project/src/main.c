@@ -1,41 +1,47 @@
 #include <asf.h>
 #include <fastmath.h>
-#include "consoleFunctions.h"
-#include "Functions.h"
 #include "TWI.h"
+#include "consoleFunctions.h"
 #include "DelayFunctions.h"
-xSemaphoreHandle signal = NULL ;
-int32_t arr[9];
 uint8_t x = 0;
-uint8_t y=0 ;
+uint32_t y=0 ;
+uint8_t data_position[10]= {};	
+uint8_t commando [1]= {12};
+twi_packet_t packet_pos ={
+	.addr[0] = 0x00,
+	.addr [1]=0,
+	.addr_length =0,
+	.chip = MegaAddr,
+	.buffer = data_position,
+	.length =10,
+};
+
+	
 int main (void)
 {
 	board_init();
 	sysclk_init();
 	ioport_init();
-	configureConsole();
 	delayInit();
+	configureConsole();
 	Twi_master_init();
 	while (1)
 	{
-		twi_Start(TWI1,unoAddress,1);
-		//master_write_byte(TWI1, x);
-		y=master_read();
-		printf("received: %d\n",y);
-		y=0;
+// 		printf("--Arduino Due Master--\n");
+// 		printf("---------------------------\n");
+// 		y= master_write_cmd(TWI1,12);
+// 		printf("Transmitted cmd to Uno:%d\n", y);	// 		delayMicroseconds(100000);
+// 		I2C_master_read(TWI1,&packet_pos);
+/// 		printf("received Packet from Mega:[");
+//  		for(int i = 0; i < 10; i++){
+// 			printf("%d ", data_position[i]);// 		}
+// 		printf("]\n");	
+// 		delayMicroseconds(100000);
+		x=master_read_cmd(TWI1);
+		printf("received cmd from Uno:%d\n",x);
+		printf("---------------------------\n");
+		delayMicroseconds(100000);
 	}
-	
-// 		delayMicroseconds(400000);
-// 		twi_Start(TWI1,unoAddress,0);
-// 		master_write_byte(TWI1, y);
-// 		printf("Turn off:%d\n",y);
-// 		delayMicroseconds(4000000);
-		
-	
-	
-		
-		
-	
 	
 // 	int x=0,x2=3,y=0,y2=5;
 // 	double Sx=0.0,Sy=0.0;	

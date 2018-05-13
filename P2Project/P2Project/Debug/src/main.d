@@ -161,8 +161,7 @@ src/main.d src/main.o: ../src/main.c ../src/asf.h \
  c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\arm\arm-gnu-toolchain\arm-none-eabi\include\fastmath.h \
  c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\arm\arm-gnu-toolchain\arm-none-eabi\include\math.h \
  c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\arm\arm-gnu-toolchain\arm-none-eabi\include\machine\fastmath.h \
- ../src/config/consoleFunctions.h ../src/Functions.h ../src/TWI.h \
- ../src/DelayFunctions.h
+ ../src/TWI.h ../src/config/consoleFunctions.h ../src/DelayFunctions.h
 
 ../src/asf.h:
 
@@ -502,10 +501,8 @@ c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\arm\arm-gnu-toolchain\arm-no
 
 c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\arm\arm-gnu-toolchain\arm-none-eabi\include\machine\fastmath.h:
 
-../src/config/consoleFunctions.h:
-
-../src/Functions.h:
-
 ../src/TWI.h:
+
+../src/config/consoleFunctions.h:
 
 ../src/DelayFunctions.h:
