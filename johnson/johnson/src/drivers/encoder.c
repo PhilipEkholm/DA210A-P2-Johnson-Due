@@ -1,49 +1,82 @@
 /*
- * encoder.c
+ * pins.c
  *
- * Created: 4/24/2018 7:35:52 AM
- *  Author: Philip Ekholm
+ * Created: 2018-04-16 21:09:56
  */ 
-
 #include <asf.h>
 #include <sam3x8e.h>
 
+
 #include "encoder.h"
+#include "MotorControll.h"
 
-static volatile int counter = 0;
+static volatile int counterA = 0;
+static volatile int counterB = 0;
 
-int get_counter(void) {
-	return counter;
+
+int get_counterA(void) {
+	return counterA;
 }
 
-void pio_interrupt(void) {
-	counter++;
+int get_counterB(void) {
+	return counterB;
 }
 
-/* 
-* Enable interrupt to be triggered on high edge on any input pin
-*/
-
-void encoder_init_pin_interrupt(void) {
-	/* Enable Clock for PIOB - needed for sampling falling edge */
-	pmc_enable_periph_clk(ID_PIOB);
-	/* Set specific pin to use as input */
-	pio_set_input(PIOB, PIO_PB26, PIO_PULLUP);
-
-	/* Enable Glitch/Debouncing filter */
-	PIOB->PIO_IFER = PIO_PB26;
-
-	/* Select Debouncing filter */
-	PIOB->PIO_DIFSR = PIO_PB26;
-
-	/* Set Debouncing clock divider */
-	PIOB->PIO_SCDR = 0x4FF;
-
-	/* Add an interrupt callback of our own choice and trigger on rising edge */
-	pio_handler_set(PIOB, ID_PIOB, PIO_PB26, PIO_IT_RISE_EDGE, pio_interrupt);
-
-	/* Enable Interrupt Handling in NVIC and in PIO */
-	pio_enable_interrupt(PIOB, PIO_PB26);
-	NVIC_EnableIRQ(PIOB_IRQn);
+void set_counterA(int a) {
+	counterA = a;
 }
 
+void set_counterB(int b) {
+	counterB = b;
+}
+
+void pio_interruptA(void) {
+	// Save all triggered interrupts
+	uint32_t status1 = PIOA->PIO_ISR;
+	counterA++;
+}
+
+void pio_interruptB(void) {
+	// Save all triggered interrupts
+	uint32_t status2 = PIOD->PIO_ISR;
+	counterB++;
+}
+
+void encoder_init(void) {
+	// Enable Clock for PIOB - needed for sampling falling edge
+	pmc_enable_periph_clk(ID_PIOA);
+	pmc_enable_periph_clk(ID_PIOD);
+	
+	pio_set_input(PIOA, PIO_PA15, PIO_PULLUP); 
+	pio_set_input(PIOD, PIO_PD0, PIO_PULLUP);
+	
+	// Enable Glitch/Debouncing filter
+	PIOA->PIO_IFER = PIO_PA15;
+	PIOD->PIO_IFER = PIO_PD0;
+	
+	// Select Debouncing filter
+	PIOA->PIO_DIFSR = PIO_PA15;
+	PIOD->PIO_DIFSR = PIO_PD0;
+	
+// 	if(getVenster() < 1500){
+// 		pio_handler_set(PIOA, ID_PIOA, PIO_PA15, PIO_IT_FALL_EDGE, pio_interruptA);
+// 	}
+// 	else{
+		pio_handler_set(PIOA, ID_PIOA, PIO_PA15, PIO_IT_RISE_EDGE, pio_interruptA);
+//	}
+	pio_enable_interrupt(PIOA, PIO_PA15);
+
+
+// 	if(getHoger() < 1500){
+// 		pio_handler_set(PIOD, ID_PIOD, PIO_PD0, PIO_IT_FALL_EDGE, pio_interruptB);
+// 	}
+// 	else{
+		pio_handler_set(PIOD, ID_PIOD, PIO_PD0, PIO_IT_RISE_EDGE, pio_interruptB);
+//	}
+	
+	pio_enable_interrupt(PIOD, PIO_PD0);
+	
+	// Enable Interrupt Handling in NVIC
+	NVIC_EnableIRQ(PIOA_IRQn);
+	NVIC_EnableIRQ(PIOD_IRQn);
+}

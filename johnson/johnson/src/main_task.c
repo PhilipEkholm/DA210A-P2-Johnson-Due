@@ -9,11 +9,26 @@
 #include "main_task.h"
 #include "pin_mapper.h"
 #include "drivers/encoder.h"
+#include "TWI.h"
+#define MAIN_TASK_PERIODICITY 10
+
+// 	uint8_t array[10] = {};
+// 	twi_packet_t packet_pos ={
+// 		.addr[0] = 0x00,
+// 		.addr [1]=0,
+// 		.addr_length =0,
+// 		.chip = unoAddress,
+// 		.buffer = array,
+// 		.length =10,
+// 	};
 
 void main_task(void *pvParameters) {
+	portTickType xLastWakeTime;
+	const portTickType xTimeIncrement = MAIN_TASK_PERIODICITY;
 	while(1){
-		ioport_set_pin_level(pin_mapper(TASK_DEBUG_MAIN_PIN), 1);
-		ioport_set_pin_level(pin_mapper(TASK_DEBUG_MAIN_PIN), 0);
+		xLastWakeTime = xTaskGetTickCount();
+		
+		vTaskDelayUntil(&xLastWakeTime, xTimeIncrement);
 	}
 }
 

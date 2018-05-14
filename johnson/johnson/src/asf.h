@@ -56,6 +56,9 @@
 #include <compiler.h>
 #include <status_codes.h>
 
+// From module: Delay routines
+#include <delay.h>
+
 // From module: FreeRTOS mini Real-Time Kernel
 #include <FreeRTOS.h>
 #include <FreeRTOS_CLI.h>
@@ -89,6 +92,9 @@
 #include <pmc.h>
 #include <sleep.h>
 
+// From module: PWM - Pulse Width Modulation
+#include <pwm.h>
+
 // From module: Part identification macros
 #include <parts.h>
 
@@ -103,6 +109,9 @@
 
 // From module: TC - Timer Counter
 #include <tc.h>
+
+// From module: TWI - Two-wire Interface
+#include <twi.h>
 
 // From module: UART - Univ. Async Rec/Trans
 #include <uart.h>

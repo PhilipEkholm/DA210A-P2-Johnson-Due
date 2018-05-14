@@ -2,9 +2,17 @@
 # Automatically-generated file. Do not edit or delete the file
 ################################################################################
 
+src\TWI.c
+
+src\ASF\common\services\delay\sam\cycle_counter.c
+
 src\ASF\common\utils\stdio\read.c
 
+src\ASF\sam\drivers\pwm\pwm.c
+
 src\ASF\sam\drivers\tc\tc.c
+
+src\ASF\sam\drivers\twi\twi.c
 
 src\ASF\thirdparty\freertos\freertos-7.3.0\source\FreeRTOS_CLI.c
 
@@ -20,7 +28,13 @@ src\ASF\thirdparty\freertos\freertos-7.3.0\source\tasks.c
 
 src\ASF\thirdparty\freertos\freertos-7.3.0\source\timers.c
 
+src\config\PWM_Configuration.c
+
 src\drivers\encoder.c
+
+src\math_functions.c
+
+src\MotorControll.c
 
 src\motor_task.c
 

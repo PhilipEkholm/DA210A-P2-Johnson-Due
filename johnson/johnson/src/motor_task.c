@@ -1,36 +1,61 @@
-/*
- * motor_task.c
- *
- * Task for handling reglerpart with motors
- *
- * Created: 4/23/2018 11:25:58 AM
- *  Author: Philip Ekholm
- */
 #include <asf.h>
 
 #include "motor_task.h"
 #include "pin_mapper.h"
+#include "MotorControll.h"
+#include "math_functions.h"
+#include "drivers/encoder.h"
+#include "TWI.h"
 
 #define MOTOR_TASK_PERIODICITY 4 /* The number on the macro will decide the periodicity of the task */
 
 void motor_task(void *pvParameters) {
 	portTickType xLastWakeTime;
 	const portTickType xTimeIncrement = MOTOR_TASK_PERIODICITY;
+	uint16_t newAngle = math_get_angle_deg(math_atan2(200,400,90,200))/3.809;
+	uint16_t newDistance = distance(get_euclid_distance(200,400,90,200));
+	uint16_t oldAngle = 0;
+	uint16_t oldDistance = 0;
+	uint8_t flagg = 0;
 	
 	while(1){
-		ioport_set_pin_level(pin_mapper(TASK_DEBUG_MOTOR_PIN), 1);
 		/* Get current tick count */
 		xLastWakeTime = xTaskGetTickCount();
-		volatile int j = 0;
 		
-		for (int i = 0; i < 1000; ++i){
-			j++;
-			ioport_set_pin_level(pin_mapper(TASK_DEBUG_MOTOR_PIN), 1);
+		//drive(1753,1793);
+		if(get_counterA() < newAngle + newDistance && get_counterB() < newAngle + newDistance){
+			if(get_counterA() < (newAngle - oldAngle) && get_counterB() < (newAngle - oldAngle) && flagg == 0){
+				printf("1");
+				printf("NEWangel: %d\n", newAngle);
+				printf("OLDangel: %d\n", oldAngle);
+				driveVinkel(1);
+//				oldAngle = oldAngle - 1;
+			}else if(get_counterA() > (newAngle - oldAngle) && get_counterB() > (newAngle - oldAngle) && flagg == 0){
+				printf("2");
+				printf("NEWangel: %d\n", newAngle);
+				printf("OLDangel: %d\n", oldAngle);
+				driveVinkel(-1);
+//				oldAngle = oldAngle + 1;
+			}else{
+				printf("");
+				printf("NEWangel: %d\n", newAngle);
+				printf("OLDangel: %d\n", oldAngle);
+				drive(1753,1793);
+				flagg = 1;
+				for(int i = 0;i < 100;i++);
+			}
+		}else{
+			drive(1500,1500);
+// 			v1 = atan([gammalposx],[gammalposy],[nyposx],[nyposy]));
+// 			v2 = atan([nyposx],[nyposy],[objektposx],[objektposy]));
+// 			oldAngle = newAngle;
+// 			newAngle = v1-v2;
+			for(int i = 0;i < 100;i++);
 		}
-
-		ioport_set_pin_level(pin_mapper(TASK_DEBUG_MOTOR_PIN), 0);
-
+	
+		
 		/* The task is now done, go to sleep until it's time again */
 		vTaskDelayUntil(&xLastWakeTime, xTimeIncrement);
 	}
+
 }
