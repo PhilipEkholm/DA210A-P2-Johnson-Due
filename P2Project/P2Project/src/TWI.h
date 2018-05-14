@@ -34,10 +34,25 @@ typedef struct twi_packet {
 	uint8_t chip;				//! TWI chip address to communicate with.
 } twi_packet_t;
 
-void Twi_master_init();
+struct point {
+	uint16_t x;
+	uint16_t y;
+};
+
+
+struct point get_origin();
+struct point get_box();
+struct point get_ball();
+struct point get_cube();
+struct point get_pos();
+void Twi_master_init(Twi* pTWI);
+
 uint8_t master_write_cmd(Twi* ptwi, uint8_t cmd);
 uint8_t master_read_cmd(Twi* p_twi);
 uint32_t I2C_mk_addr(const uint8_t *addr, int len);
 uint32_t I2C_master_read(Twi *p_twi, twi_packet_t *p_packet);
+uint8_t array[10];
+
+
 
 #endif /* TWI_H_ */

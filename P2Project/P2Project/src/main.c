@@ -8,12 +8,12 @@ uint32_t y=0 ;
 uint8_t data_position[10]= {};	
 uint8_t commando [1]= {12};
 twi_packet_t packet_pos ={
-	.addr[0] = 0x00,
+	.addr[0] = 0x00,	// TWI address/commands to issue to the other chip (node).
 	.addr [1]=0,
-	.addr_length =0,
-	.chip = MegaAddr,
-	.buffer = data_position,
-	.length =10,
+	.addr_length =0,	// Length of the TWI data address segment (1-3 bytes)
+	.chip = unoAddress,		// Adress to Mega kort
+	.buffer = data_position, // where to save packet
+	.length =10,	//pakcket length
 };
 
 	
@@ -24,23 +24,23 @@ int main (void)
 	ioport_init();
 	delayInit();
 	configureConsole();
-	Twi_master_init();
+	Twi_master_init(TWI1);
 	while (1)
 	{
-// 		printf("--Arduino Due Master--\n");
-// 		printf("---------------------------\n");
+ 		printf("--Arduino Due Master--\n");
+ 		printf("---------------------------\n");
 // 		y= master_write_cmd(TWI1,12);
-// 		printf("Transmitted cmd to Uno:%d\n", y);	// 		delayMicroseconds(100000);
-// 		I2C_master_read(TWI1,&packet_pos);
-/// 		printf("received Packet from Mega:[");
-//  		for(int i = 0; i < 10; i++){
-// 			printf("%d ", data_position[i]);// 		}
-// 		printf("]\n");	
-// 		delayMicroseconds(100000);
-		x=master_read_cmd(TWI1);
-		printf("received cmd from Uno:%d\n",x);
+// 		printf("Transmitted cmd to Uno:%d\n", y)		delayMicroseconds(100000);
+		I2C_master_read(TWI1,&packet_pos);
+ 		printf("received Packet from Mega:[");
+ 		for(int i = 0; i < 10; i++){
+			printf("%d ", data_position[i]); 		}
+		printf("]\n");	
+//		delayMicroseconds(100000);
+// 		x=master_read_cmd(TWI1);
+// 		printf("received cmd from Uno:%d\n",x);
 		printf("---------------------------\n");
-		delayMicroseconds(100000);
+		//delayMicroseconds(100000);
 	}
 	
 // 	int x=0,x2=3,y=0,y2=5;
