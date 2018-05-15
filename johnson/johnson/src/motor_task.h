@@ -13,3 +13,10 @@
 #define TASK_DEBUG_MOTOR_PIN  (53)
 
 void motor_task(void *pvParameters);
+
+struct motor_task_instruction{
+	uint16_t distance;
+	double angle;
+};
+
+xQueueHandle motor_task_instruction_handle;

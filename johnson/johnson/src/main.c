@@ -28,16 +28,14 @@
 // 	};
 
 int main (void)
-
 {
 	sysclk_init();
 	board_init();
-	delay_init();
 	ioport_init();
 	console_init();
 	encoder_init();
 	PWM_init();
-	I2C_master_init();
+	Twi_master_init(TWI1);
 	
 	ioport_enable_pin(pin_mapper(TASK_DEBUG_MOTOR_PIN));
 	ioport_enable_pin(pin_mapper(TASK_DEBUG_MAIN_PIN));
@@ -52,11 +50,14 @@ int main (void)
 // 			printf("%d\n", array[i]);
 // 		}
 // 	}
+	/* Create queue-handle for the motor task */
+	motor_task_instruction_handle = xQueueCreate(1, sizeof(struct motor_task_instruction));
+ 
 	/* Create our tasks for the program */
 	xTaskCreate(motor_task, (const signed char * const) "motor_task", TASK_MOTOR_STACK_SIZE, NULL, TASK_MOTOR_PRIORITY, NULL);
 	xTaskCreate(main_task, (const signed char * const) "main_task", TASK_MAIN_STACK_SIZE, NULL, TASK_MAIN_PRIORITY, NULL);
-	
+
 	vTaskStartScheduler();
-	
+
 	return 0;
 }

@@ -18,9 +18,19 @@ void motor_task(void *pvParameters) {
 	uint16_t oldDistance = 0;
 	uint8_t flagg = 0;
 	
+	struct motor_task_instruction current_instruction;
+	
 	while(1){
 		/* Get current tick count */
 		xLastWakeTime = xTaskGetTickCount();
+		
+		/* Get instructions from main task */
+		if (xQueuePeek(motor_task_instruction_handle, &current_instruction, 10)) {
+			if (current_instruction.distance == 6) {
+				ioport_set_pin_level(pin_mapper(TASK_DEBUG_MOTOR_PIN), 1);
+				ioport_set_pin_level(pin_mapper(TASK_DEBUG_MOTOR_PIN), 0);
+			}
+		}
 		
 		//drive(1753,1793);
 		if(get_counterA() < newAngle + newDistance -30 && get_counterB() < newAngle + newDistance -30){

@@ -13,20 +13,20 @@
 
 
 	 
-void I2C_master_init(){
+void Twi_master_init(Twi* pTWI){
 	pmc_enable_periph_clk(ID_TWI1); /* power the clock for the TWI with pmc */
-
-	PIOA->PIO_PDR|= (PIO_PB12)|(PIO_PB13);	/* Enable TWI pios */
-	TWI1->TWI_CR = (0x1u << 7);				// TWIn software reset
-	TWI1->TWI_RHR;							// Flush reception buffer
+	PIOB->PIO_PDR|= (PIO_PB12)|(PIO_PB13);	/* Enable TWI pios */
+	//PIOA->PIO_PDR|= (PIO_PA18)|(PIO_PA17);	/* Enable TWI pios */
+	pTWI->TWI_CR = (0x1u << 7);				// TWIn software reset
+	pTWI->TWI_RHR;							// Flush reception buffer
 	/* Set Master Disable bit and Slave Disable bit */
-	TWI1->TWI_CR = TWI_CR_MSDIS;
-	TWI1->TWI_CR = TWI_CR_SVDIS;
-	TWI1->TWI_CR |= (0x1u << 2);			/* Set Master Enable bit */
-	TWI1->TWI_MMR |= TWI_MMR_DADR(unoAddress);//device address
-	TWI1->TWI_PTCR |= (0x1u << 0)|(0x1u << 8);//Receiver/transmitter Transfer Enable 
-	TWI0->TWI_IDR = ~0UL;					/* Disable TWI interrupts */
-	TWI1->TWI_CWGR |= I2C_SPEED;
+	pTWI->TWI_CR = TWI_CR_MSDIS;
+	pTWI->TWI_CR = TWI_CR_SVDIS;
+	pTWI->TWI_CR |= (0x1u << 2);			/* Set Master Enable bit */
+	pTWI->TWI_MMR |= TWI_MMR_DADR(unoAddress);//device address
+	pTWI->TWI_PTCR |= (0x1u << 0)|(0x1u << 8);//Receiver/transmitter Transfer Enable
+	pTWI->TWI_IDR = ~0UL;					/* Disable TWI interrupts */
+	pTWI->TWI_CWGR |= I2C_SPEED;
 }
 /*this function startar a connection between a master and especific
 * slave with unique ID. this function used for earlier experiments
@@ -89,6 +89,7 @@ uint8_t master_read_cmd(Twi* p_twi){
 */
 uint32_t I2C_master_read(Twi *p_twi, twi_packet_t *p_packet)
 {
+	printf("welcome\n");
 	uint32_t status;
 	uint32_t cnt = p_packet->length;
 	uint8_t *buffer = p_packet->buffer;
@@ -175,7 +176,7 @@ uint32_t I2C_master_read(Twi *p_twi, twi_packet_t *p_packet)
 	return val;
  }
 
- struct point get_origin(){
+ struct point get_origin(void){
 	 
 	 struct point coordinates;
 	 
@@ -185,7 +186,7 @@ uint32_t I2C_master_read(Twi *p_twi, twi_packet_t *p_packet)
  };
 
 
- struct point get_box(){
+ struct point get_box(void){
 	 
 	 struct point coordinates;
 	 
@@ -194,7 +195,7 @@ uint32_t I2C_master_read(Twi *p_twi, twi_packet_t *p_packet)
 	 return coordinates;
  };
 
- struct point get_ball(){
+ struct point get_ball(void){
 	 struct point coordinates;
 	 
 	 coordinates.x = array[5]*2;
@@ -202,7 +203,7 @@ uint32_t I2C_master_read(Twi *p_twi, twi_packet_t *p_packet)
 	 return coordinates;
  };
 
- struct point get_cube(){
+ struct point get_cube(void){
 	 
 	 struct point coordinates;
 	 
@@ -211,7 +212,7 @@ uint32_t I2C_master_read(Twi *p_twi, twi_packet_t *p_packet)
 	 return coordinates;
  };
 
- struct point get_pos(){
+struct point get_pos(void){
 	 struct point coordinates;
 	 
 	 coordinates.x = array[8]*2;
