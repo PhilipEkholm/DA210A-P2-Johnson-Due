@@ -12,8 +12,8 @@
 void motor_task(void *pvParameters) {
 	portTickType xLastWakeTime;
 	const portTickType xTimeIncrement = MOTOR_TASK_PERIODICITY;
-	uint16_t newAngle = math_get_angle_deg(math_atan2(200,400,90,200))/3.809;
-	uint16_t newDistance = distance(get_euclid_distance(200,400,90,200));
+	uint16_t newAngle = math_get_angle_deg(math_atan2(200,400,0,0))/3.809;
+	uint16_t newDistance = distance(get_euclid_distance(200,400,0,0));
 	uint16_t oldAngle = 0;
 	uint16_t oldDistance = 0;
 	uint8_t flagg = 0;
@@ -23,7 +23,7 @@ void motor_task(void *pvParameters) {
 		xLastWakeTime = xTaskGetTickCount();
 		
 		//drive(1753,1793);
-		if(get_counterA() < newAngle + newDistance && get_counterB() < newAngle + newDistance){
+		if(get_counterA() < newAngle + newDistance -30 && get_counterB() < newAngle + newDistance -30){
 			if(get_counterA() < (newAngle - oldAngle) && get_counterB() < (newAngle - oldAngle) && flagg == 0){
 				printf("1");
 				printf("NEWangel: %d\n", newAngle);
