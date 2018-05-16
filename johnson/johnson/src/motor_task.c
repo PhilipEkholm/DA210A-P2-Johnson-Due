@@ -6,17 +6,23 @@
 #include "math_functions.h"
 #include "drivers/encoder.h"
 #include "TWI.h"
+#include "main_task.h"
 
 #define MOTOR_TASK_PERIODICITY 4 /* The number on the macro will decide the periodicity of the task */
+
+static void forDelay(){
+	for(int i = 0;i < 1000;i++){
+		drive(1500,1500);
+	}
+}
 
 void motor_task(void *pvParameters) {
 	portTickType xLastWakeTime;
 	const portTickType xTimeIncrement = MOTOR_TASK_PERIODICITY;
-	uint16_t newAngle = math_get_angle_deg(math_atan2(200,400,0,0))/3.809;
-	uint16_t newDistance = distance(get_euclid_distance(200,400,0,0));
-	uint16_t oldAngle = 0;
-	uint16_t oldDistance = 0;
+ 	int16_t angle = 0;
+ 	uint16_t distance = 0;
 	uint8_t flagg = 0;
+	uint8_t flaggu = 0;
 	
 	struct motor_task_instruction current_instruction;
 	
@@ -24,48 +30,47 @@ void motor_task(void *pvParameters) {
 		/* Get current tick count */
 		xLastWakeTime = xTaskGetTickCount();
 		
-		/* Get instructions from main task */
-		if (xQueuePeek(motor_task_instruction_handle, &current_instruction, 10)) {
-			if (current_instruction.distance == 6) {
-				ioport_set_pin_level(pin_mapper(TASK_DEBUG_MOTOR_PIN), 1);
-				ioport_set_pin_level(pin_mapper(TASK_DEBUG_MOTOR_PIN), 0);
+		while(!xQueuePeek(motor_task_instruction_handle, &current_instruction, 1));
+		
+		angle = (int16_t)current_instruction.angle/3.809;
+		distance = convertDistance(current_instruction.distance);
+		
+		if(angle<0){
+			angle = angle * -1;
+			flagg = 3;
+		}else{
+			flagg = 0;
+		}
+		if(get_counterA() < angle + distance && get_counterB() < angle + distance){
+			
+			
+			if(get_counterA() < (angle) && get_counterB() < (angle) && flagg == 0){
+				driveVinkel(1);
+			}else if(get_counterA() < (angle) && get_counterB() < (angle) && flagg == 3){
+				driveVinkel(-1);
+			}else{
+				if(flaggu != 1){
+					forDelay();
+					flaggu = 1;
+				}
+				drive(1793,1793);
 			}
 		}
-		
-		//drive(1753,1793);
-		if(get_counterA() < newAngle + newDistance -30 && get_counterB() < newAngle + newDistance -30){
-			if(get_counterA() < (newAngle - oldAngle) && get_counterB() < (newAngle - oldAngle) && flagg == 0){
-				printf("1");
-				printf("NEWangel: %d\n", newAngle);
-				printf("OLDangel: %d\n", oldAngle);
-				driveVinkel(1);
-//				oldAngle = oldAngle - 1;
-			}else if(get_counterA() > (newAngle - oldAngle) && get_counterB() > (newAngle - oldAngle) && flagg == 0){
-				printf("2");
-				printf("NEWangel: %d\n", newAngle);
-				printf("OLDangel: %d\n", oldAngle);
-				driveVinkel(-1);
-//				oldAngle = oldAngle + 1;
-			}else{
-				printf("");
-				printf("NEWangel: %d\n", newAngle);
-				printf("OLDangel: %d\n", oldAngle);
-				drive(1753,1793);
-				flagg = 1;
-				for(int i = 0;i < 100;i++);
-			}
-		}else{
-			drive(1500,1500);
-// 			v1 = atan([gammalposx],[gammalposy],[nyposx],[nyposy]));
-// 			v2 = atan([nyposx],[nyposy],[objektposx],[objektposy]));
-// 			oldAngle = newAngle;
-// 			newAngle = v1-v2;
-			for(int i = 0;i < 100;i++);
+		else{
+			forDelay();
+			flagg = 1;
+			flaggu = 0;
+				
+			/* Finished driving the distance, empty queue for new instruction */
+			xQueueReceive(motor_task_instruction_handle, &current_instruction, 1);
+			resetCounterA();
+			resetCounterB();
 		}
 	
 		
 		/* The task is now done, go to sleep until it's time again */
-		vTaskDelayUntil(&xLastWakeTime, xTimeIncrement);
+	vTaskDelayUntil(&xLastWakeTime, xTimeIncrement);
 	}
 
 }
+

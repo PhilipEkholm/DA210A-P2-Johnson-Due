@@ -175,3 +175,47 @@ uint32_t I2C_master_read(Twi *p_twi, twi_packet_t *p_packet)
 	}
 	return val;
  }
+
+ struct point get_origin(void){
+	 
+	 struct point coordinates;
+	 
+	 coordinates.x = array[8]*2;
+	 coordinates.y = array[9]*2;
+	 return coordinates;
+ };
+
+
+ struct point get_box(void){
+	 
+	 struct point coordinates;
+	 
+	 coordinates.x = array[1]*2;
+	 coordinates.y = array[2]*2;
+	 return coordinates;
+ };
+
+ struct point get_ball(void){
+	 struct point coordinates;
+	 
+	 coordinates.x = array[5]*2;
+	 coordinates.y = array[6]*2;
+	 return coordinates;
+ };
+
+ struct point get_cube(void){
+	 
+	 struct point coordinates;
+	 
+	 coordinates.x = array[3]*2;
+	 coordinates.y = array[4]*2;
+	 return coordinates;
+ };
+
+struct point get_pos(void){
+	 struct point coordinates;
+	 
+	 coordinates.x = array[8]*2;
+	 coordinates.y = array[9]*2;
+	 return coordinates;
+ };

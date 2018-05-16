@@ -162,7 +162,8 @@ src/motor_task.d src/motor_task.o: ../src/motor_task.c ../src/asf.h \
  ../src/config/conf_uart_serial.h ../src/ASF/sam/drivers/tc/tc.h \
  ../src/twi.h ../src/ASF/sam/drivers/pio/pio_handler.h \
  ../src/motor_task.h ../src/pin_mapper.h ../src/MotorControll.h \
- ../src/math_functions.h ../src/drivers/encoder.h ../src/TWI.h
+ ../src/math_functions.h ../src/drivers/encoder.h ../src/TWI.h \
+ ../src/main_task.h
 
 ../src/asf.h:
 
@@ -513,3 +514,5 @@ c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\arm\arm-gnu-toolchain\arm-no
 ../src/drivers/encoder.h:
 
 ../src/TWI.h:
+
+../src/main_task.h:

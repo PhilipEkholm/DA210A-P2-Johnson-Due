@@ -14,7 +14,7 @@ int16_t e = 0;
 int16_t u = 0;
 uint16_t Uv = 0;
 uint16_t Uh = 0;
-uint8_t k = 4;
+uint8_t k = 2;
 
  /************************************************************************/
  /* A funktion that gives power to motor A                                                                     */
@@ -32,7 +32,7 @@ uint8_t k = 4;
  /************************************************************************/
  /* This function converts a specific distance to pulses for the motor                                                                  */
  /************************************************************************/
- uint16_t distance(uint16_t cm){
+ uint16_t convertDistance(uint16_t cm){
 	return cm/1.396;
  }
  

@@ -22,12 +22,12 @@ int get_counterB(void) {
 	return counterB;
 }
 
-void set_counterA(int a) {
-	counterA = a;
+void resetCounterA() {
+	counterA = 0;
 }
 
-void set_counterB(int b) {
-	counterB = b;
+void resetCounterB() {
+	counterB = 0;
 }
 
 void pio_interruptA(void) {

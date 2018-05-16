@@ -8,5 +8,5 @@
 void encoder_init(void);
 int get_counterA(void);
 int get_counterB(void);
-void set_counterA(int a);
-void set_counterB(int b);
+void resetCounterA();
+void resetCounterB();

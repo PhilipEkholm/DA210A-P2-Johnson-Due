@@ -54,7 +54,7 @@ int main (void)
 	motor_task_instruction_handle = xQueueCreate(1, sizeof(struct motor_task_instruction));
  
 	/* Create our tasks for the program */
-	//xTaskCreate(motor_task, (const signed char * const) "motor_task", TASK_MOTOR_STACK_SIZE, NULL, TASK_MOTOR_PRIORITY, NULL);
+	xTaskCreate(motor_task, (const signed char * const) "motor_task", TASK_MOTOR_STACK_SIZE, NULL, TASK_MOTOR_PRIORITY, NULL);
 	xTaskCreate(main_task, (const signed char * const) "main_task", TASK_MAIN_STACK_SIZE, NULL, TASK_MAIN_PRIORITY, NULL);
 
 	vTaskStartScheduler();
