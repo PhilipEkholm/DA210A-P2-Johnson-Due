@@ -30,7 +30,7 @@ void motor_task(void *pvParameters) {
 		/* Get current tick count */
 		xLastWakeTime = xTaskGetTickCount();
 		
-		while(!xQueuePeek(motor_task_instruction_handle, &current_instruction, 1));
+		while(!xQueuePeek(motor_task_instruction_handle, &current_instruction, 10));
 		
 		angle = (int16_t)current_instruction.angle/3.809;
 		distance = convertDistance(current_instruction.distance);
@@ -62,14 +62,13 @@ void motor_task(void *pvParameters) {
 			flaggu = 0;
 				
 			/* Finished driving the distance, empty queue for new instruction */
-			xQueueReceive(motor_task_instruction_handle, &current_instruction, 1);
+			xQueueReceive(motor_task_instruction_handle, &current_instruction, 10);
 			resetCounterA();
 			resetCounterB();
 		}
 	
-		
 		/* The task is now done, go to sleep until it's time again */
-	vTaskDelayUntil(&xLastWakeTime, xTimeIncrement);
+		vTaskDelayUntil(&xLastWakeTime, xTimeIncrement);
 	}
 
 }

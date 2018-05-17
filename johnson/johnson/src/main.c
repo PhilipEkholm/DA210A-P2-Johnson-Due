@@ -11,7 +11,6 @@
 #include "main_task.h"
 
 #include "drivers/console_driver.h"
-#include "drivers/delay.h"
 #include "drivers/encoder.h"
 #include "pin_mapper.h"
 #include "MotorControll.h"
@@ -40,16 +39,14 @@ int main (void)
 	ioport_enable_pin(pin_mapper(TASK_DEBUG_MOTOR_PIN));
 	ioport_enable_pin(pin_mapper(TASK_DEBUG_MAIN_PIN));
 	ioport_enable_pin(pin_mapper(30));
+	ioport_enable_pin(pin_mapper(SWITCH_CURIE_NOETHER_PIN)); /* Switch for switching platforms */
+
 	ioport_set_pin_dir(pin_mapper(TASK_DEBUG_MOTOR_PIN), IOPORT_DIR_OUTPUT);
 	ioport_set_pin_dir(pin_mapper(TASK_DEBUG_MAIN_PIN), IOPORT_DIR_OUTPUT);
-// 	while (1)
-// 	{
-// 		master_write_cmd(TWI1,12);
-// 		//I2C_master_read(TWI1, &packet_pos);
-// 		for(int i = 0; i < 10; i++){
-// 			printf("%d\n", array[i]);
-// 		}
-// 	}
+	ioport_set_pin_dir(pin_mapper(SWITCH_CURIE_NOETHER_PIN), IOPORT_DIR_INPUT);
+	/* Enable pullup for switch as well */
+	PIOC->PIO_PUER |= PIO_PC25;
+
 	/* Create queue-handle for the motor task */
 	motor_task_instruction_handle = xQueueCreate(1, sizeof(struct motor_task_instruction));
  

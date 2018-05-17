@@ -47,10 +47,4 @@ uint32_t I2C_mk_addr(const uint8_t *addr, int len);
 uint32_t I2C_master_read(Twi *p_twi, twi_packet_t *p_packet);
 uint8_t array[10];
 
-struct point get_origin(void);
-struct point get_box(void);
-struct point get_ball(void);
-struct point get_cube(void);
-struct point get_pos(void);
-
 #endif /* TWI_H_ */

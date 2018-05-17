@@ -25,7 +25,7 @@ double math_get_angle_rad(double deg){
 }
 
 /* Get euclidean distance between two points (see Pythagorean theorem) */
-double get_euclid_distance(double x, double y, double x1, double y1) {
+uint16_t get_euclid_distance(uint16_t x, uint16_t y, uint16_t x1, uint16_t y1) {
 	X = x - x1;
 	Y = y - y1;
 	return sqrt((X*X) + (Y*Y));
@@ -36,8 +36,7 @@ double math_atan2(double x, double y, double x1, double y1) {
 	X = x - x1;
 	Y = y - y1;
 	if (X == 0 && Y == 0){
-		printf("Invalid input values!\n");
-		return -1;
+		return 0;
 	}
 
 	if (X > 0)

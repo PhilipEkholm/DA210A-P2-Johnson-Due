@@ -52,13 +52,13 @@ uint8_t k = 2;
 	 
 // 	 printf("encoder A %d och encoder B %d\n",get_counterA(), get_counterB());
 // 	 printf("Motor A %d och motor B %d\n",Uv,Uh);
-	 printf("e = %d\n",e);
+//	 printf("e = %d\n",e);
 //	 printf("Fram=============\n");
  }
  
  /************************************************************************/
- /* This function rotates the robot and keeps it in its place, one motor
- /* rotates forward the other motor rotates backwards
+ /* This function rotates the robot and keeps it in its place, one motor */
+ /* rotates forward the other motor rotates backwards                    */
  /************************************************************************/
  void driveVinkel(int riktning){
 	 if(riktning == 1){
@@ -68,7 +68,5 @@ uint8_t k = 2;
 	 }else{
 		 drive(1500, 1500);
 	 }
-		 
-	
  }
   

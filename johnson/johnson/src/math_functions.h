@@ -7,7 +7,9 @@
 
 #pragma once
 
+#include <stdint.h>
+
 double math_get_angle_deg(double rad);
 double math_get_angle_rad(double deg);
-double get_euclid_distance(double x, double y, double x1, double y1);
+uint16_t get_euclid_distance(uint16_t x, uint16_t y, uint16_t x1, uint16_t y1);
 double math_atan2(double x, double y, double x1, double y1);
