@@ -160,7 +160,7 @@ src/MotorControll.d src/MotorControll.o: ../src/MotorControll.c \
  ../src/ASF/common/services/serial/sam_uart/uart_serial.h \
  ../src/ASF/sam/drivers/uart/uart.h ../src/ASF/sam/drivers/usart/usart.h \
  ../src/config/conf_uart_serial.h ../src/ASF/sam/drivers/tc/tc.h \
- ../src/twi.h ../src/ASF/sam/drivers/pio/pio_handler.h \
+ ../src/ASF/sam/drivers/pio/pio_handler.h \
  ../src/ASF/sam/utils/cmsis/sam3x/include/sam3x8e.h \
  ../src/MotorControll.h ../src/drivers/encoder.h \
  ../src/config/PWM_Configuration.h
@@ -498,8 +498,6 @@ c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\arm\arm-gnu-toolchain\arm-no
 ../src/config/conf_uart_serial.h:
 
 ../src/ASF/sam/drivers/tc/tc.h:
-
-../src/twi.h:
 
 ../src/ASF/sam/drivers/pio/pio_handler.h:
 

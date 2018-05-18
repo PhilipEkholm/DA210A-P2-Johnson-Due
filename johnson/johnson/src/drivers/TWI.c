@@ -10,8 +10,6 @@
 * TWI1 are used for the master
 * enables TWI pios
 */
-
-
 	 
 void Twi_master_init(Twi* pTWI){
 	pmc_enable_periph_clk(ID_TWI1); /* power the clock for the TWI with pmc */

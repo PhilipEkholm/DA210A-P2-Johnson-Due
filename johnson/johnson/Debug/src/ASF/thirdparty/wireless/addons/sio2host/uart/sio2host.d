@@ -162,7 +162,7 @@ src/ASF/thirdparty/wireless/addons/sio2host/uart/sio2host.d \
  ../src/ASF/common/services/serial/sam_uart/uart_serial.h \
  ../src/ASF/sam/drivers/uart/uart.h ../src/ASF/sam/drivers/usart/usart.h \
  ../src/config/conf_uart_serial.h ../src/ASF/sam/drivers/tc/tc.h \
- ../src/twi.h ../src/ASF/sam/drivers/pio/pio_handler.h \
+ ../src/ASF/sam/drivers/pio/pio_handler.h \
  ../src/ASF/thirdparty/wireless/addons/sio2host/uart/sio2host.h \
  ../src/config/conf_sio2host.h
 
@@ -499,8 +499,6 @@ c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\arm\arm-gnu-toolchain\arm-no
 ../src/config/conf_uart_serial.h:
 
 ../src/ASF/sam/drivers/tc/tc.h:
-
-../src/twi.h:
 
 ../src/ASF/sam/drivers/pio/pio_handler.h:
 

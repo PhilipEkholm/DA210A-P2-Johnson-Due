@@ -11,10 +11,15 @@
 #include "motor_task.h"
 #include "pin_mapper.h"
 #include "drivers/encoder.h"
-#include "TWI.h"
 #include "math_functions.h"
+#include "positions.h"
 
 #define MAIN_TASK_PERIODICITY 10
+
+static struct point current_pos;
+static struct point earlier_pos;
+static struct point box;
+static struct point object;
 
 struct point mock_positions[4] = {
 	{ 50, 100 },
@@ -23,75 +28,13 @@ struct point mock_positions[4] = {
 	{ 280, 260 },
 };
 
-uint8_t array[10]={};
-twi_packet_t packet_pos ={
-	.addr[0] = 0x00,	// TWI address/commands to issue to the other chip (node).
-	.addr [1]=0,
-	.addr_length =0,	// Length of the TWI data address segment (1-3 bytes)
-	.chip = unoAddress,		// Adress to Mega kort
-	.buffer = array, // where to save packet
-	.length =10,	//packet length
-};
-
-static struct point current_pos;
-static struct point earlier_pos;
-static struct point box;
-static struct point object;
-
-struct point get_pos(void){
-	
-	struct point coordinates;
-	
-	coordinates.x = array[8]*2;
-	coordinates.y = array[9]*2;
-	/* Mock, replace later */
-	coordinates.x = 0;
-	coordinates.y = 0;
-	return coordinates;
-};
-
-struct point get_box(void){
-	
-	struct point coordinates;
-	
-	coordinates.x = array[0]*2;
-	coordinates.y = array[1]*2;
-	/* Mock, replace later */
-	coordinates.x = 50;
-	coordinates.y = 50;
-	return coordinates;
-};
-
-struct point get_ball(void){
-	struct point coordinates;
-	
-	coordinates.x = array[4]*2;
-	coordinates.y = array[5]*2;
-	/* Mock, replace later */
-	coordinates.x = 300;
-	coordinates.y = 300;
-	return coordinates;
-};
-
-struct point get_cube(void){
-	
-	struct point coordinates;
-	
-	coordinates.x = array[2]*2;
-	coordinates.y = array[3]*2;
-	/* Mock, replace later */
-	coordinates.x = 300;
-	coordinates.y = 300;
-	return coordinates;
-};
-
 void main_task(void *pvParameters) {
 	uint16_t distance, minimum_distance_to_object; /* In cm */
 	double alpha, beta, correction_angle, minimum_angle = 1; /* In degrees */
 	uint8_t mock_pos_index = 0;
 	
 	/* Read first time package and set static coordinates */
-	I2C_master_read(TWI1, &packet_pos);
+	update_positions();
 	current_pos = get_pos();
 	box = get_box();
 	
@@ -108,7 +51,7 @@ void main_task(void *pvParameters) {
 		printf("Noether");
 	}
 		
-	I2C_master_read(TWI1, &packet_pos);
+	update_positions();
 	current_pos = get_pos();
 
 	/* Drive only half the distance */
@@ -126,6 +69,7 @@ void main_task(void *pvParameters) {
 	printf("First run, angle: %d, d: %d", (int16_t)alpha, distance);
 
 	while(distance > minimum_distance_to_object) {
+		/* Wait for motor task to complete */
 		while(xQueuePeek(motor_task_instruction_handle, &inst, 2));
 
 		//I2C_master_read(TWI1, &packet_pos);
@@ -155,11 +99,12 @@ void main_task(void *pvParameters) {
 			earlier_pos = current_pos;
 			mock_pos_index++;
 		}
-		else {
-			/* Motor task busy, wait until stop */
-		}
 	}
-		
+	
+	/* Find the object and pick it up */
+	
+
+	/* P2 is now over. */
 	while(1);
 }
 

@@ -2,7 +2,9 @@
 # Automatically-generated file. Do not edit or delete the file
 ################################################################################
 
-src\TWI.c
+src\drivers\TWI.c
+
+src\positions.c
 
 src\ASF\common\services\delay\sam\cycle_counter.c
 
@@ -11,8 +13,6 @@ src\ASF\common\utils\stdio\read.c
 src\ASF\sam\drivers\pwm\pwm.c
 
 src\ASF\sam\drivers\tc\tc.c
-
-src\ASF\sam\drivers\twi\twi.c
 
 src\ASF\thirdparty\freertos\freertos-7.3.0\source\FreeRTOS_CLI.c
 
@@ -47,8 +47,6 @@ src\ASF\sam\drivers\usart\usart.c
 src\ASF\thirdparty\wireless\addons\sio2host\uart\sio2host.c
 
 src\drivers\console_driver.c
-
-src\drivers\delay.c
 
 src\ASF\common\utils\stdio\write.c
 

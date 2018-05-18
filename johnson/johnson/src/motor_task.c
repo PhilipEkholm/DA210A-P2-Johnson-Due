@@ -5,7 +5,7 @@
 #include "MotorControll.h"
 #include "math_functions.h"
 #include "drivers/encoder.h"
-#include "TWI.h"
+#include "drivers/TWI.h"
 #include "main_task.h"
 
 #define MOTOR_TASK_PERIODICITY 4 /* The number on the macro will decide the periodicity of the task */

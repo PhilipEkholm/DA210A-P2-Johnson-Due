@@ -34,11 +34,6 @@ typedef struct twi_packet {
 	uint8_t chip;				//! TWI chip address to communicate with.
 } twi_packet_t;
 
-struct point {
-	uint16_t x;
-	uint16_t y;
-};
-
 void Twi_master_init(Twi* pTWI);
 
 uint8_t master_write_cmd(Twi* ptwi, uint8_t cmd);

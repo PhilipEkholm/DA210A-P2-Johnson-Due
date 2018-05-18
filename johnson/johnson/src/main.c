@@ -15,16 +15,7 @@
 #include "pin_mapper.h"
 #include "MotorControll.h"
 #include "config/PWM_Configuration.h"
-#include "TWI.h"
-// 	uint8_t array[10] = {};
-// 	twi_packet_t packet_pos ={
-// 		.addr[0] = 0x00,
-// 		.addr [1]=0,
-// 		.addr_length =0,
-// 		.chip = unoAddress,
-// 		.buffer = array,
-// 		.length =10,
-// 	};
+#include "drivers/TWI.h"
 
 int main (void)
 {

@@ -160,9 +160,8 @@ src/drivers/console_driver.d src/drivers/console_driver.o: \
  ../src/ASF/common/services/ioport/ioport.h \
  ../src/ASF/common/services/ioport/sam/ioport_pio.h \
  ../src/ASF/sam/drivers/pmc/sleep.h ../src/ASF/sam/drivers/pwm/pwm.h \
- ../src/ASF/sam/drivers/tc/tc.h ../src/twi.h \
- ../src/ASF/sam/drivers/pio/pio_handler.h ../src/config/conf_board.h \
- ../src/drivers/console_driver.h
+ ../src/ASF/sam/drivers/tc/tc.h ../src/ASF/sam/drivers/pio/pio_handler.h \
+ ../src/config/conf_board.h ../src/drivers/console_driver.h
 
 ../src/ASF/common/utils/stdio/stdio_serial/stdio_serial.h:
 
@@ -497,8 +496,6 @@ c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\arm\arm-gnu-toolchain\arm-no
 ../src/ASF/sam/drivers/pwm/pwm.h:
 
 ../src/ASF/sam/drivers/tc/tc.h:
-
-../src/twi.h:
 
 ../src/ASF/sam/drivers/pio/pio_handler.h:
 
