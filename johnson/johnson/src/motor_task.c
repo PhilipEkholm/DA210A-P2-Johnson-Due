@@ -11,7 +11,7 @@
 #define MOTOR_TASK_PERIODICITY 4 /* The number on the macro will decide the periodicity of the task */
 
 static void forDelay(){
-	for(int i = 0;i < 1000;i++){
+	for(int i = 0;i < 200000;i++){
 		drive(1500,1500);
 	}
 }
