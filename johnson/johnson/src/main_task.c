@@ -13,6 +13,7 @@
 #include "drivers/encoder.h"
 #include "math_functions.h"
 #include "positions.h"
+#include "drivers/hcsr04.h"
 
 #define MAIN_TASK_PERIODICITY 10
 
@@ -29,7 +30,7 @@ struct point mock_positions[4] = {
 };
 
 void main_task(void *pvParameters) {
-	uint16_t distance, minimum_distance_to_object; /* In cm */
+	int16_t distance, minimum_distance_to_object; /* In cm */
 	double alpha, beta, correction_angle, minimum_angle = 1; /* In degrees */
 	uint8_t mock_pos_index = 0;
 	
@@ -100,11 +101,13 @@ void main_task(void *pvParameters) {
 			mock_pos_index++;
 		}
 	}
-	
-	/* Find the object and pick it up */
-	
 
 	/* P2 is now over. */
-	while(1);
+	while(1){
+		/* Find the object and pick it up */
+		if (hcsr04_sample_ready()){
+			printf("Distance: %d\n", hcsr04_get_distance());
+		}
+	}
 }
 

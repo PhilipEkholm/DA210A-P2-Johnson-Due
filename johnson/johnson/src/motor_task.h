@@ -15,7 +15,7 @@
 void motor_task(void *pvParameters);
 
 struct motor_task_instruction{
-	uint16_t distance;
+	int16_t distance;
 	double angle;
 };
 

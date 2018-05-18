@@ -20,9 +20,10 @@ void motor_task(void *pvParameters) {
 	portTickType xLastWakeTime;
 	const portTickType xTimeIncrement = MOTOR_TASK_PERIODICITY;
  	int16_t angle = 0;
- 	uint16_t distance = 0;
+ 	int16_t distance = 0;
 	uint8_t flagg = 0;
 	uint8_t flaggu = 0;
+	uint8_t accelerate = 200;
 	
 	struct motor_task_instruction current_instruction;
 	
@@ -53,14 +54,20 @@ void motor_task(void *pvParameters) {
 					forDelay();
 					flaggu = 1;
 				}
-				drive(1793,1793);
+				drive(1753 - accelerate,1793 - accelerate);
+				if(accelerate > 0){
+					accelerate = accelerate - 1;
+					if (accelerate < 0){
+						accelerate = 0;
+					}
+				}
 			}
 		}
 		else{
 			forDelay();
 			flagg = 1;
 			flaggu = 0;
-				
+			accelerate = 200;
 			/* Finished driving the distance, empty queue for new instruction */
 			xQueueReceive(motor_task_instruction_handle, &current_instruction, 10);
 			resetCounterA();

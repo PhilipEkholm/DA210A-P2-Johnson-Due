@@ -16,16 +16,20 @@
 #include "MotorControll.h"
 #include "config/PWM_Configuration.h"
 #include "drivers/TWI.h"
+#include "drivers/hcsr04.h"
+#include "drivers/delay_driver.h"
 
 int main (void)
 {
 	sysclk_init();
 	board_init();
+	delay_driver_init();
 	ioport_init();
 	console_init();
 	encoder_init();
 	PWM_init();
 	Twi_master_init(TWI1);
+	hcsr04_init();
 	
 	ioport_enable_pin(pin_mapper(TASK_DEBUG_MOTOR_PIN));
 	ioport_enable_pin(pin_mapper(TASK_DEBUG_MAIN_PIN));
