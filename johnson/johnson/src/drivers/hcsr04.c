@@ -118,3 +118,30 @@ void hcsr04_init(void) {
 	/* Enable the interrupts for measuring pulse width on ECHO */
 	echo_init_pin_interrupts();
 }
+
+/* Observe function will "hang" while waiting for new sample */
+int hcsr04_get_distance_filtered(void) {
+	int max_value = 50;
+	int min_value = 5;
+	int check_sample = 0;
+	int legit_sample_counter = 0;
+	int sum_values = 0;
+	
+	for (int i = 0; i < 10; i++) {
+		while(!hcsr04_sample_ready());
+		check_sample = hcsr04_get_distance();
+
+		sum_values += check_sample;
+		if (check_sample > min_value && check_sample < max_value)
+		{
+			legit_sample_counter++;
+		}
+	}
+	
+	if(legit_sample_counter >= 8) {
+		return sum_values/10;
+	} 
+	else {
+		return -1;
+	}
+}

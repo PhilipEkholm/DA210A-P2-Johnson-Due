@@ -21,7 +21,7 @@ void Twi_master_init(Twi* pTWI){
 	pTWI->TWI_CR = TWI_CR_MSDIS;
 	pTWI->TWI_CR = TWI_CR_SVDIS;
 	pTWI->TWI_CR |= (0x1u << 2);			/* Set Master Enable bit */
-	pTWI->TWI_MMR |= TWI_MMR_DADR(unoAddress);//device address
+	pTWI->TWI_MMR |= TWI_MMR_DADR(MegaAddr);//device address
 	pTWI->TWI_PTCR |= (0x1u << 0)|(0x1u << 8);//Receiver/transmitter Transfer Enable
 	pTWI->TWI_IDR = ~0UL;					/* Disable TWI interrupts */
 	pTWI->TWI_CWGR |= I2C_SPEED;
@@ -87,7 +87,6 @@ uint8_t master_read_cmd(Twi* p_twi){
 */
 uint32_t I2C_master_read(Twi *p_twi, twi_packet_t *p_packet)
 {
-	printf("welcome\n");
 	uint32_t status;
 	uint32_t cnt = p_packet->length;
 	uint8_t *buffer = p_packet->buffer;

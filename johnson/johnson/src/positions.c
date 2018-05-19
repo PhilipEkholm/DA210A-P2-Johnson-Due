@@ -8,14 +8,16 @@
 #include "positions.h"
 #include "drivers/TWI.h"
 
+#define USE_MOCK_TWI (1)
+
 uint8_t array[10]={};
 twi_packet_t packet_pos ={
 	.addr[0] = 0x00,	// TWI address/commands to issue to the other chip (node).
 	.addr [1]=0,
 	.addr_length =0,	// Length of the TWI data address segment (1-3 bytes)
-	.chip = unoAddress,		// Adress to Mega kort
-	.buffer = array, // where to save packet
-	.length =10,	//packet length
+	.chip = MegaAddr,	// Adress to Mega kort
+	.buffer = array,	// where to save packet
+	.length =10,		//packet length
 };
 
 struct point get_pos(void){
@@ -24,44 +26,48 @@ struct point get_pos(void){
 	
 	coordinates.x = array[8]*2;
 	coordinates.y = array[9]*2;
-	/* Mock, replace later */
-	coordinates.x = 0;
-	coordinates.y = 0;
+	
+	#if USE_MOCK_TWI
+		coordinates.x = 0;
+		coordinates.y = 0;
+	#endif
 	return coordinates;
 };
 
 struct point get_box(void){
-	
+	/* Since we know where the box is, why not just hard code? */
 	struct point coordinates;
-	
-	coordinates.x = array[0]*2;
-	coordinates.y = array[1]*2;
-	/* Mock, replace later */
-	coordinates.x = 50;
-	coordinates.y = 50;
+
+	coordinates.x = 400;
+	coordinates.y = 400;
+
 	return coordinates;
 };
 
-struct point get_ball(void){
+struct point get_ball(void) {
 	struct point coordinates;
 	
 	coordinates.x = array[4]*2;
 	coordinates.y = array[5]*2;
-	/* Mock, replace later */
-	coordinates.x = 300;
-	coordinates.y = 300;
+
+	#if USE_MOCK_TWI
+		coordinates.x = 100;
+		coordinates.y = 300;
+	#endif
 	return coordinates;
 };
 
 struct point get_cube(void){
 	
 	struct point coordinates;
-	
+
 	coordinates.x = array[2]*2;
 	coordinates.y = array[3]*2;
-	/* Mock, replace later */
-	coordinates.x = 300;
-	coordinates.y = 300;
+
+	#if USE_MOCK_TWI
+		coordinates.x = 100;
+		coordinates.y = 300;
+	#endif
 	return coordinates;
 };
 

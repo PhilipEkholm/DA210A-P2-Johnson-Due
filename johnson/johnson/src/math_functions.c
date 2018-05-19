@@ -43,9 +43,9 @@ double math_atan2(double x, double y, double x1, double y1) {
 		return atan(Y/X);
 	else if (X < 0 && Y >= 0)
 		return (atan(Y/X) + PI);
-	else if(X < 0 && Y < 0)
+	else if (X < 0 && Y < 0)
 		return (atan(Y/X) - PI);
-	else if(X == 0 && Y > 0)
+	else if (X == 0 && Y > 0)
 		return (PI/2);
 	else
 		return (-PI/2);

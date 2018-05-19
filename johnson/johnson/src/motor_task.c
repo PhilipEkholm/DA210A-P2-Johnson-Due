@@ -56,7 +56,7 @@ void motor_task(void *pvParameters) {
 				}
 				drive(1753 - accelerate,1793 - accelerate);
 				if(accelerate > 0){
-					accelerate = accelerate - 1;
+					accelerate = accelerate - 10;
 					if (accelerate < 0){
 						accelerate = 0;
 					}

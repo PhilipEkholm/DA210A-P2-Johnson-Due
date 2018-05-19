@@ -10,3 +10,4 @@
 int hcsr04_get_distance(void);
 void hcsr04_init(void);
 int hcsr04_sample_ready(void);
+int hcsr04_get_distance_filtered(void);
