@@ -16,10 +16,11 @@
 #include "math_functions.h"
 #include "positions.h"
 #include "drivers/hcsr04.h"
+#include "drivers/TWI.h"
 
 #define USE_NAV_CORRECTION       (0)
-#define USE_SENSOR_DETECTION     (1)
-#define USE_BOX_NAV              (1)
+#define USE_SENSOR_DETECTION     (0)
+#define USE_BOX_NAV              (0)
 #define MINIMUM_CORRECTION_ANGLE (1.00)
 
 static struct point current_pos;
@@ -71,8 +72,8 @@ void main_task(void *pvParameters) {
 	alpha = math_get_angle_deg(math_atan2(object.x, object.y, current_pos.x, current_pos.y));
 		
 	struct motor_task_instruction inst = {
-		.distance = distance,
-		.angle = alpha
+		.distance = -40,
+		.angle = 0
 	};
 		
 	xQueueSend(motor_task_instruction_handle, &inst, 10);
@@ -80,7 +81,7 @@ void main_task(void *pvParameters) {
 	
 	printf("Current pos: (%d, %d)\n", current_pos.x, current_pos.y);
 	printf("Position of object: (%d, %d)\n", object.x, object.y);
-	printf("First run, angle: %d, d: %d\n", (int16_t)alpha, distance);
+	printf("First run, angle: %d, d: %d\n", (int16_t)alpha, inst.distance);
 
 	while(USE_NAV_CORRECTION && (distance - minimum_distance_to_object) > 10) {
 		/* Wait for motor task to complete */
@@ -179,11 +180,13 @@ void main_task(void *pvParameters) {
 		xQueueSend(motor_task_instruction_handle, &inst, 2);
 		while(xQueuePeek(motor_task_instruction_handle, &inst, 2));
 	}
-	
-	/* PSEUDO: Send a message to the arm that we've found it */
-	
-	/* PSEUDO: Do a busy wait for message back */
-	
+
+	printf("Attempting to grab object\n");
+	/* Send a message to the arm that we've found it */
+	master_write_cmd(TWI1,grap_object);
+	/* Do a busy wait for message back */
+	vTaskDelay(22000);
+
 	/* Finally, take us to the box */
 	for (int i = 0; USE_BOX_NAV && i < 2; ++i){
 		update_positions();
@@ -219,7 +222,9 @@ void main_task(void *pvParameters) {
 		
 		while(xQueuePeek(motor_task_instruction_handle, &inst, 2));
 	}
-
+	
+	master_write_cmd(TWI1,release_object);
+	printf("Released object\n");
 	/* P2 is now over. */
 	printf("--------------End--------------\n");
 	while(1);

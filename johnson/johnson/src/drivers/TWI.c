@@ -55,11 +55,11 @@ uint8_t master_write_cmd(Twi* ptwi, uint8_t cmd){
 	ptwi->TWI_MMR = TWI_MMR_DADR(unoAddress) |
 	((0 << TWI_MMR_IADRSZ_Pos) & TWI_MMR_IADRSZ_Msk);
  	
-	 while (!(ptwi->TWI_SR & TWI_SR_TXRDY));	
+	 while (!(TWI1->TWI_SR & TWI_SR_TXRDY));	
 	ptwi->TWI_THR =cmd;//write commando to THR
 	
 	ptwi->TWI_CR = TWI_CR_STOP;
-	while (!(ptwi->TWI_SR & TWI_SR_TXCOMP)){}
+	while (!(TWI1->TWI_SR & TWI_SR_TXCOMP)){}
 	cmd_send=cmd;
 	return cmd_send;
 }
@@ -70,15 +70,15 @@ uint8_t master_write_cmd(Twi* ptwi, uint8_t cmd){
 uint8_t master_read_cmd(Twi* p_twi){
 	uint8_t cmd;
 	/* Set read mode, slave address and 3 internal address byte lengths */
-	p_twi->TWI_MMR = 0;
-	p_twi->TWI_MMR = TWI_MMR_MREAD | TWI_MMR_DADR(unoAddress) |
+	TWI1->TWI_MMR = 0;
+	TWI1->TWI_MMR = TWI_MMR_MREAD | TWI_MMR_DADR(unoAddress) |
 	((0<< TWI_MMR_IADRSZ_Pos) & TWI_MMR_IADRSZ_Msk);
-	p_twi->TWI_CR = TWI_CR_START;
-	while (!(TWI1 ->TWI_SR & TWI_SR_RXRDY)){}
+	TWI1->TWI_CR = TWI_CR_START;
+	while (!(TWI1 ->TWI_SR & TWI_SR_RXRDY));
 	cmd =TWI1->TWI_RHR; 
-	p_twi->TWI_CR = TWI_CR_STOP;
-	while (!(p_twi->TWI_SR & TWI_SR_TXCOMP)) {}
-	p_twi->TWI_SR;
+	TWI1->TWI_CR = TWI_CR_STOP;
+	while (!(TWI1->TWI_SR & TWI_SR_TXCOMP)) {}
+	TWI1->TWI_SR;
 	return cmd;
 
 }

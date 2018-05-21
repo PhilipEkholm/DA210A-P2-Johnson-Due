@@ -11,6 +11,7 @@
 #define USE_MOCK_TWI (1)
 
 uint8_t array[10]={};
+
 twi_packet_t packet_pos ={
 	.addr[0] = 0x00,	// TWI address/commands to issue to the other chip (node).
 	.addr [1]=0,

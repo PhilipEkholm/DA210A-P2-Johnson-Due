@@ -21,6 +21,6 @@ void drive(uint16_t U0v, uint16_t U0h);
 
 void driveVinkel(int riktning);
 
-uint16_t convertDistance(uint16_t cm);
+int16_t convertDistance(int16_t cm);
 
 #endif /* MOTORCONTROLL_H_ */

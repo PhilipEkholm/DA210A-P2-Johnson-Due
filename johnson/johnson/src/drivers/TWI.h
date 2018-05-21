@@ -10,9 +10,9 @@
 #define TWI_H_
 #define unoAddress 0x08 //Arduino Uno Adress
 #define MegaAddr 0x10	//Arduino Mega Adress
-#define grap_object 0x12
-#define reslease_object 0x13
-#define grip_successfull 0x10
+#define grap_object 12
+#define release_object 13
+#define grip_successfull 10
 #define grip_failed 0x11
 #define TWI_SUCCESS              0
 #define TWI_INVALID_ARGUMENT     1

@@ -32,7 +32,7 @@ uint8_t k = 2;
  /************************************************************************/
  /* This function converts a specific distance to pulses for the motor                                                                  */
  /************************************************************************/
- uint16_t convertDistance(uint16_t cm){
+ int16_t convertDistance(int16_t cm){
 	return cm/1.396;
  }
  
@@ -43,9 +43,13 @@ uint8_t k = 2;
  void drive(uint16_t U0v, uint16_t U0h){
 	 e = (get_counterA() - get_counterB());
 	 u = (k*e);
-	 
-	 Uv = U0v - u;
-	 Uh = u + U0h;
+	 if(U0h < 1500 && U0v < 1500){
+		 Uv = u + U0v;
+		 Uh = U0h - u;
+	 }else{
+		 Uv = U0v - u;
+		 Uh = u + U0h;
+	 }
 	 
 	 motorA(Uv);
 	 motorB(Uh);
