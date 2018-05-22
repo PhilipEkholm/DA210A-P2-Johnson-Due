@@ -46,7 +46,6 @@ void motor_task(void *pvParameters) {
 			distance = -distance;
 			distanceFlag = 1;
 		}
-		printf("\n%d",distance);
 		if(get_counterA() < angle + distance && get_counterB() < angle + distance){
 			
 			
@@ -65,7 +64,7 @@ void motor_task(void *pvParameters) {
 				else{
 					drive(1753 - accelerate,1793 - accelerate);
 					if(accelerate > 0){
-						accelerate = accelerate - 10;
+						accelerate = accelerate - 1; //accelerations index som av gör hur snabbt plattformen accelererar
 						if (accelerate < 0){
 							accelerate = 0;
 						}

@@ -1,5 +1,5 @@
-src/main.d src/main.o: ../src/main.c ../src/asf.h \
- ../src/ASF/sam/utils/compiler.h \
+src/drivers/hcsr04.d src/drivers/hcsr04.o: ../src/drivers/hcsr04.c \
+ ../src/asf.h ../src/ASF/sam/utils/compiler.h \
  c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\arm\arm-gnu-toolchain\lib\gcc\arm-none-eabi\6.3.1\include\stddef.h \
  ../src/ASF/common/utils/parts.h \
  ../src/ASF/sam/utils/preprocessor/preprocessor.h \
@@ -160,11 +160,9 @@ src/main.d src/main.o: ../src/main.c ../src/asf.h \
  ../src/ASF/common/services/serial/sam_uart/uart_serial.h \
  ../src/ASF/sam/drivers/uart/uart.h ../src/ASF/sam/drivers/usart/usart.h \
  ../src/config/conf_uart_serial.h ../src/ASF/sam/drivers/tc/tc.h \
- ../src/ASF/sam/drivers/pio/pio_handler.h ../src/motor_task.h \
- ../src/main_task.h ../src/drivers/console_driver.h \
- ../src/drivers/encoder.h ../src/pin_mapper.h ../src/MotorControll.h \
- ../src/config/PWM_Configuration.h ../src/drivers/TWI.h \
- ../src/drivers/hcsr04.h ../src/drivers/delay_driver.h
+ ../src/ASF/sam/drivers/pio/pio_handler.h \
+ ../src/ASF/sam/utils/cmsis/sam3x/include/sam3x8e.h \
+ ../src/drivers/hcsr04.h ../src/pin_mapper.h
 
 ../src/asf.h:
 
@@ -502,22 +500,8 @@ c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\arm\arm-gnu-toolchain\arm-no
 
 ../src/ASF/sam/drivers/pio/pio_handler.h:
 
-../src/motor_task.h:
-
-../src/main_task.h:
-
-../src/drivers/console_driver.h:
-
-../src/drivers/encoder.h:
-
-../src/pin_mapper.h:
-
-../src/MotorControll.h:
-
-../src/config/PWM_Configuration.h:
-
-../src/drivers/TWI.h:
+../src/ASF/sam/utils/cmsis/sam3x/include/sam3x8e.h:
 
 ../src/drivers/hcsr04.h:
 
-../src/drivers/delay_driver.h:
+../src/pin_mapper.h:

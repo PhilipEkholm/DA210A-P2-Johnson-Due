@@ -2,6 +2,10 @@
 # Automatically-generated file. Do not edit or delete the file
 ################################################################################
 
+src\drivers\delay_driver.c
+
+src\drivers\hcsr04.c
+
 src\drivers\TWI.c
 
 src\positions.c

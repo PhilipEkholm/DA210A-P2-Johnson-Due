@@ -8,7 +8,7 @@
 #include "positions.h"
 #include "drivers/TWI.h"
 
-#define USE_MOCK_TWI (1)
+#define USE_MOCK_TWI (0)
 
 uint8_t array[10]={};
 
@@ -39,7 +39,7 @@ struct point get_box(void){
 	/* Since we know where the box is, why not just hard code? */
 	struct point coordinates;
 
-	coordinates.x = 400;
+	coordinates.x = 300;
 	coordinates.y = 400;
 
 	return coordinates;

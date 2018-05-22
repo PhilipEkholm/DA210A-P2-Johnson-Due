@@ -104,6 +104,8 @@ SUBDIRS :=  \
 
 # Add inputs and outputs from these tool invocations to the build variables 
 C_SRCS +=  \
+../src/drivers/delay_driver.c \
+../src/drivers/hcsr04.c \
 ../src/drivers/TWI.c \
 ../src/positions.c \
 ../src/ASF/common/services/delay/sam/cycle_counter.c \
@@ -151,6 +153,8 @@ ASM_SRCS +=
 
 
 OBJS +=  \
+src/drivers/delay_driver.o \
+src/drivers/hcsr04.o \
 src/drivers/TWI.o \
 src/positions.o \
 src/ASF/common/services/delay/sam/cycle_counter.o \
@@ -191,6 +195,8 @@ src/ASF/sam/utils/syscalls/gcc/syscalls.o \
 src/main.o
 
 OBJS_AS_ARGS +=  \
+src/drivers/delay_driver.o \
+src/drivers/hcsr04.o \
 src/drivers/TWI.o \
 src/positions.o \
 src/ASF/common/services/delay/sam/cycle_counter.o \
@@ -231,6 +237,8 @@ src/ASF/sam/utils/syscalls/gcc/syscalls.o \
 src/main.o
 
 C_DEPS +=  \
+src/drivers/delay_driver.d \
+src/drivers/hcsr04.d \
 src/drivers/TWI.d \
 src/positions.d \
 src/ASF/common/services/delay/sam/cycle_counter.d \
@@ -271,6 +279,8 @@ src/ASF/sam/utils/syscalls/gcc/syscalls.d \
 src/main.d
 
 C_DEPS_AS_ARGS +=  \
+src/drivers/delay_driver.d \
+src/drivers/hcsr04.d \
 src/drivers/TWI.d \
 src/positions.d \
 src/ASF/common/services/delay/sam/cycle_counter.d \
@@ -325,6 +335,10 @@ LINKER_SCRIPT_DEP+=  \
 
 
 # AVR32/GNU C Compiler
+
+
+
+
 
 
 

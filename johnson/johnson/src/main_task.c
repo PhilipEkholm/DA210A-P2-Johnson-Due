@@ -8,6 +8,7 @@
  * Updated: Emil -> Sensor: Filtering data samples (2018-05-18) // Done
  */ 
 #include <asf.h>
+#include <stdio.h>
 
 #include "main_task.h"
 #include "motor_task.h"
@@ -18,9 +19,9 @@
 #include "drivers/hcsr04.h"
 #include "drivers/TWI.h"
 
-#define USE_NAV_CORRECTION       (0)
+#define USE_NAV_CORRECTION       (1)
 #define USE_SENSOR_DETECTION     (0)
-#define USE_BOX_NAV              (0)
+#define USE_BOX_NAV              (1)
 #define MINIMUM_CORRECTION_ANGLE (1.00)
 
 static struct point current_pos;
@@ -47,16 +48,17 @@ void main_task(void *pvParameters) {
 	current_pos = get_pos();
 	box = get_box();
 	
+	
 	if (ioport_get_pin_level(pin_mapper(SWITCH_CURIE_NOETHER_PIN))) {
 		/* Marie Curie */
 		object = get_cube();
-		minimum_distance_to_object = 25;
+		minimum_distance_to_object = 42;
 		printf("Curie selected\n");
 	}
 	else{
 		/* Emmy Noether */
 		object = get_ball();
-		minimum_distance_to_object = 20;
+		minimum_distance_to_object = 47;
 		printf("Noether selected\n");
 	}
 		
@@ -65,15 +67,15 @@ void main_task(void *pvParameters) {
 
 	distance = get_euclid_distance(object.x, object.y, current_pos.x, current_pos.y);
 	#if USE_NAV_CORRECTION
-		distance = (distance * 7) / 10;
+		distance = distance / 2;
 	#else
 		distance -= minimum_distance_to_object;
 	#endif
 	alpha = math_get_angle_deg(math_atan2(object.x, object.y, current_pos.x, current_pos.y));
 		
 	struct motor_task_instruction inst = {
-		.distance = -40,
-		.angle = 0
+		.distance = distance,
+		.angle = alpha
 	};
 		
 	xQueueSend(motor_task_instruction_handle, &inst, 10);
@@ -83,7 +85,7 @@ void main_task(void *pvParameters) {
 	printf("Position of object: (%d, %d)\n", object.x, object.y);
 	printf("First run, angle: %d, d: %d\n", (int16_t)alpha, inst.distance);
 
-	while(USE_NAV_CORRECTION && (distance - minimum_distance_to_object) > 10) {
+	while(USE_NAV_CORRECTION && (distance - minimum_distance_to_object) > 3) {
 		/* Wait for motor task to complete */
 		while(xQueuePeek(motor_task_instruction_handle, &inst, 2));
 
@@ -94,7 +96,7 @@ void main_task(void *pvParameters) {
 		
 		distance = get_euclid_distance(object.x, object.y, current_pos.x, current_pos.y);
 		/* Drive 70 % of target distance */
-		distance = (distance * 7) / 10;
+		distance = distance / 2;
 
 		/* Calculate the actual angle that was driven */
 		beta = math_get_angle_deg(math_atan2(current_pos.x, current_pos.y, earlier_pos.x, earlier_pos.y));
@@ -188,40 +190,55 @@ void main_task(void *pvParameters) {
 	vTaskDelay(22000);
 
 	/* Finally, take us to the box */
-	for (int i = 0; USE_BOX_NAV && i < 2; ++i){
-		update_positions();
-		current_pos = get_pos();
+	update_positions();
+	current_pos = get_pos();
 		
-		alpha = math_get_angle_deg(math_atan2(object.x, object.y, current_pos.x, current_pos.y));
-		beta = math_get_angle_deg(math_atan2(current_pos.x, current_pos.y, earlier_pos.x, earlier_pos.y));
+	alpha = math_get_angle_deg(math_atan2(300, 300, current_pos.x, current_pos.y));
+	beta = math_get_angle_deg(math_atan2(current_pos.x, current_pos.y, earlier_pos.x, earlier_pos.y));
 		
-		if (i == 0) {
-			distance = get_euclid_distance(box.x - 30, box.y - 50, current_pos.x, current_pos.y);
-			/* Compensate for earlier rotations as well */
-			correction_angle = alpha - beta - rotate_tot;
-		}
-		else if (i == 1) {
-			distance = get_euclid_distance(box.x - 30, box.y - 30, current_pos.x, current_pos.y);
-			correction_angle = alpha - beta;
-		}
-		
-		printf("correction: %d, d: %d\n", (int16_t)correction_angle, distance);
-		printf("Box: (%d, %d)\n", box.x, box.y);
-
-		if (abs(correction_angle) < MINIMUM_CORRECTION_ANGLE){
-			correction_angle = 0;
-		}
-		
-		inst.distance = distance;
-		inst.angle = correction_angle;
-
-		if (xQueueSend(motor_task_instruction_handle, &inst, 5)) {
-			/* Instruction successfully sent to motor task */
-			earlier_pos = current_pos;
-		}
-		
-		while(xQueuePeek(motor_task_instruction_handle, &inst, 2));
+	distance = get_euclid_distance(300, 300, current_pos.x, current_pos.y);
+	/* Compensate for earlier rotations as well */
+	correction_angle = alpha - beta;
+	
+	printf("correction: %d, d: %d\n", (int16_t)correction_angle, distance);
+	printf("Box: (%d, %d)\n", box.x, box.y);
+	
+	if (abs(correction_angle) < MINIMUM_CORRECTION_ANGLE){
+		correction_angle = 0;
 	}
+	
+	inst.distance = distance;
+	inst.angle = correction_angle;
+
+	if (xQueueSend(motor_task_instruction_handle, &inst, 5)) {
+		/* Instruction successfully sent to motor task */
+		earlier_pos = current_pos;
+	}
+	
+	while(xQueuePeek(motor_task_instruction_handle, &inst, 2));
+	
+	update_positions();
+	current_pos = get_pos();
+	
+	alpha = math_get_angle_deg(math_atan2(box.x, box.y, current_pos.x, current_pos.y));
+	beta = math_get_angle_deg(math_atan2(current_pos.x, current_pos.y, earlier_pos.x, earlier_pos.y));
+	
+	distance = get_euclid_distance(box.x, box.y - 45, current_pos.x, current_pos.y);
+	correction_angle = alpha - beta;
+
+	if (abs(correction_angle) < MINIMUM_CORRECTION_ANGLE){
+		correction_angle = 0;
+	}
+		
+	inst.distance = distance;
+	inst.angle = correction_angle;
+
+	if (xQueueSend(motor_task_instruction_handle, &inst, 5)) {
+		/* Instruction successfully sent to motor task */
+		earlier_pos = current_pos;
+	}
+		
+	while(xQueuePeek(motor_task_instruction_handle, &inst, 2));
 	
 	master_write_cmd(TWI1,release_object);
 	printf("Released object\n");
