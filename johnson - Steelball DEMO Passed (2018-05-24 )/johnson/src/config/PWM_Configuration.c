@@ -53,12 +53,12 @@
    }
    
    
-   // metod för duty cykle för pwm 6 
+   // metod för duty cykle för pwm 6 som är begranad mellan 1000 och 2000 mhz 
    void pwm_pin_6(uint32_t speed1){	   
     pwm_channel_update_duty(PWM, &PWM_pin_6, speed1); 
 }
 
- // metod för duty cykle för pwm 7  
+ // metod för duty cykle för pwm 7 som är begranad mellan 1000 och 2000 mhz 
   void pwm_pin_7(uint32_t speed2){
 	pwm_channel_update_duty(PWM, & PWM_pin_7, speed2 );
 }

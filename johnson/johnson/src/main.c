@@ -27,7 +27,7 @@ int main (void)
 	ioport_init();
 	console_init();
 	encoder_init();
-	pwm_setup();
+	PWM_init();
 	Twi_master_init(TWI1);
 	hcsr04_init();
 	
