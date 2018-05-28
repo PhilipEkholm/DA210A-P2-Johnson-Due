@@ -211,6 +211,7 @@ void main_task(void *pvParameters) {
 		xQueueSend(motor_task_instruction_handle, &inst, 2);
 		while(xQueuePeek(motor_task_instruction_handle, &inst, 2));
 	}
+	/* Sensor end */
 
 	printf("Attempting to grab object\n");
 	/* Send a message to the arm that we've found it */

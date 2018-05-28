@@ -129,7 +129,7 @@ void hcsr04_init(void) {
 int const how_many_samples = 10;
 int const how_many_legit_samples = 10 - 2;
 int const min_value = 2;
-int const max_value = 50;
+int const max_value = 30;
 int check_sample = 0;
 int legit_sample_counter = 0;
 int sum_values = 0;
