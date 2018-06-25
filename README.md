@@ -1,4 +1,15 @@
-# p2-johnson-due
-Repo for Arduino Due card (SAM3X8E).
+# DA210A-P2-Johnson-Due
 
-Se johnson - Cube DEMO Passed (2018-05-24 ) samt johnson - Steelball DEMO Passed (2018-05-24 ) för kommentarer såväl som senaste version av koden.
+Code written for project 2 during second year computer engineering program. The code is for an ATSAM3X8E (Arduino Due) mounted on board an Arlo-robot.
+
+Written by me and my team Katherine Johnson, which includes:
+
+- Philip Ekholm
+- Daniel Petersén
+- Charif Ramadan
+- Ali Hassan
+- Mohamed Hojeij
+- Emil Lindkvist
+- Joel Skogsberg
+
+Many thanks to you all guys!
